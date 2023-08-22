@@ -19,13 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('items', [ItemController::class, "index"]);
-// Route::post('update-order', [ItemController::class, "updateOrder"])->name("update-order");
-
 
 Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 Route::get('/tasks/edit/{task}', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-Route::post('/update-order', [TaskController::class, "updateOrder"])->name("update-order");
+Route::post('/update-order', [TaskController::class, 'updateOrder'])->name("update-order");
+Route::delete('/tasks/delete/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');

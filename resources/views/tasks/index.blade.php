@@ -129,9 +129,28 @@
             // Delete button click handler
             $(".delete-item").click(function() {
                 var itemId = $(this).data("id");
-                // Implement logic to delete the task with ID itemId
-                alert("Implement the task deletion logic for task ID: " + itemId);
+
+                // Confirm deletion
+                if (confirm("Are you sure you want to delete this task?")) {
+                    // Perform an AJAX request to delete the task
+                    $.ajax({
+                        type: 'DELETE',
+                        url: "{{ route('tasks.destroy', '') }}/" + itemId,
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(data) {
+                            // Remove the deleted task from the UI
+                            $("#" + itemId).remove();
+                            alert('Task deleted successfully');
+                        },
+                        error: function(error) {
+                            alert('An error occurred while deleting the task');
+                        }
+                    });
+                }
             });
+
 
             function updateOrder() {
                 var taskOrder = [];

@@ -100,4 +100,23 @@ class TaskController extends Controller
             "message" => "No order data provided"
         ]);
     }
+
+    public function destroy($id)
+    {
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json([
+                "status" => false,
+                "message" => "Task not found"
+            ], 404);
+        }
+
+        $task->delete();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Task deleted successfully"
+        ]);
+    }
 }
