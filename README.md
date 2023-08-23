@@ -12,15 +12,29 @@ Clone or download the application and run composer install to install all the pa
 
 ## Docker
 
-cd into the root of the application folder and run 'sail up' in your cmd to run the aplication
+cd into the root of the application folder and run
+
+```bash
+sail up
+```
+
+in your cmd to run the aplication
 
 ## Run Migration
 
-To run migrations, execute the migrate Artisan 'sail artisan migrate'
+To run migrations, execute the migrate Artisan
 
-## Run Seed
+```bash
+sail artisan migrate
+```
 
-To run migrations, execute the migrate Artisan 'sail artisan db:seed'
+## Run Seeder
+
+To run seeder, execute the seed Artisan
+
+```bash
+sail artisan db:seed'
+```
 
 ## link to perform crud
 
