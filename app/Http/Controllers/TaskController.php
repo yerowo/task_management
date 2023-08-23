@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    const PRIORITIES = [
+        'high' => 0,
+        'medium' => 1,
+        'low' => 2,
+    ];
+
+
     public function index()
     {
         $tasks = Task::orderBy('priority')->get();
@@ -26,7 +33,7 @@ class TaskController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'task_name' => 'required|string|max:50',
+            'task_name' => 'required|string|max:255',
             'priority' => 'required|in:high,medium,low',
             'project_id' => 'nullable|exists:projects,id', // Validate project_id if provided
         ]);
@@ -40,7 +47,7 @@ class TaskController extends Controller
 
         $task = new Task;
         $task->task_name = $request->input('task_name');
-        $task->priority = $priorityMap[$request->input('priority')];
+        $task->priority = self::PRIORITIES[$request->input('priority')];
         $task->status = 1; // Assuming 1 means active
 
         // Set the project_id if provided

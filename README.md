@@ -18,6 +18,10 @@ cd into the root of the application folder and run 'sail up' in your cmd to run 
 
 To run migrations, execute the migrate Artisan 'sail artisan migrate'
 
+## Run Seed
+
+To run migrations, execute the migrate Artisan 'sail artisan db:seed'
+
 ## link to perform crud
 
 http://localhost/tasks
