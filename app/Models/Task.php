@@ -12,6 +12,11 @@ class Task extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'task_name', 'priority',
+        'task_name', 'priority', 'status', 'project_id'
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

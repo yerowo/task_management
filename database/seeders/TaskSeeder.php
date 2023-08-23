@@ -15,22 +15,40 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
+        // Retrieve project IDs
+        $projectIds = DB::table('projects')->pluck('id');
+
         // Define the task data
         $tasks = [
             [
                 'task_name' => 'Task 1',
                 'priority' => 0, // High
                 'status' => 1,   // Active
+                'project_id' => $projectIds->random(),
             ],
             [
                 'task_name' => 'Task 2',
                 'priority' => 1, // Medium
                 'status' => 1,   // Active
+                'project_id' => $projectIds->random(),
             ],
             [
                 'task_name' => 'Task 3',
                 'priority' => 2, // Low
                 'status' => 1,   // Active
+                'project_id' => $projectIds->random(),
+            ],
+            [
+                'task_name' => 'Task 4',
+                'priority' => 2, // Low
+                'status' => 1,   // Active
+                'project_id' => $projectIds->random(),
+            ],
+            [
+                'task_name' => 'Task 5',
+                'priority' => 1, // Medium
+                'status' => 1,   // Active
+                'project_id' => $projectIds->random(),
             ],
             // Add more task data as needed
         ];

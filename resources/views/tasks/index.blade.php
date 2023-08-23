@@ -76,6 +76,23 @@
 
 @section('content')
     <h2 class="header">Laravel Task Manager</h2>
+    <form id="project-filter-form">
+        @csrf
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label class="sr-only" for="project-filter">Filter by Project:</label>
+                <select class="form-control mb-2" id="project-filter" name="project_id">
+                    <option value="">All Projects</option>
+                    @foreach ($projects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm mb-2">Apply Filter</button>
+            </div>
+        </div>
+    </form>
 
     <ul class="task-list" id="sortable">
         @if (count($tasks) > 0)
@@ -83,13 +100,15 @@
                 <li class="task-item ui-state-default" id="{{ $row->id }}">
                     <span class="task-name">{{ $row->task_name }}</span>
                     <div class="action-buttons">
-                        <button class="edit-item btn btn-primary btn-sm" data-id="{{ $row->id }}">Edit</button>
+                        <button class="edit-item btn btn-primary btn-sm" data-id="{{ $row->id }}"
+                            data-url="{{ route('tasks.edit', $row->id) }}">Edit</button>
                         <button class="delete-item btn btn-danger btn-sm" data-id="{{ $row->id }}">Delete</button>
                     </div>
                 </li>
             @endforeach
         @endif
     </ul>
+
 
     <div class="add-task-button">
         <button id="create-item" class="btn btn-success">Add Task</button>
@@ -118,17 +137,50 @@
                 });
             });
 
+            // Handle form submission to filter tasks
+            $("#project-filter-form").submit(function(event) {
+                event.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('tasks.filter') }}",
+                    data: formData,
+                    success: function(data) {
+                        // Replace task list with filtered tasks
+                        $("#sortable").html(data);
+                    },
+                    error: function(error) {
+                        alert('An error occurred while filtering tasks');
+                    }
+                });
+                applyFilter();
+            });
+
+            // Function to update edit button data-id attributes
+            function applyFilter() {
+                $(".task-item").each(function() {
+                    let taskId = $(this).attr("id");
+                    let editButton = $(this).find(".edit-item");
+                    editButton.attr("data-id", taskId);
+                });
+            }
+
+            $("#sortable").on("click", ".edit-item", function() {
+                let taskId = $(this).data("id");
+                // Redirect or perform your edit action here
+                window.location.href = "/tasks/" + "edit/" + taskId;
+            });
 
             // Edit button click handler
             $(".edit-item").click(function() {
-                var itemId = $(this).data("id");
-                window.location.href = "{{ route('tasks.edit', '') }}/" + itemId;
+                let editUrl = $(this).data("url");
+                window.location.href = editUrl;
             });
 
 
             // Delete button click handler
             $(".delete-item").click(function() {
-                var itemId = $(this).data("id");
+                let itemId = $(this).data("id");
 
                 // Confirm deletion
                 if (confirm("Are you sure you want to delete this task?")) {
@@ -153,11 +205,11 @@
 
 
             function updateOrder() {
-                var taskOrder = [];
+                let taskOrder = [];
                 $('#sortable li').each(function() {
                     taskOrder.push($(this).attr("id"));
                 });
-                var orderString = 'order=' + taskOrder;
+                let orderString = 'order=' + taskOrder;
                 $.ajax({
                     type: "POST",
                     url: "{{ route('update-order') }}",

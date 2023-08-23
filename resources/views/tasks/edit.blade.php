@@ -21,15 +21,25 @@
                     <option value="2" {{ old('priority', $task->priority) === 2 ? 'selected' : '' }}>Low</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="project_id">Project</label>
+                <select class="form-control" id="project_id" name="project_id">
+                    <option value="" selected>Select a Project</option>
+                    @foreach ($projects as $project)
+                        <option value="{{ $project->id }}"
+                            {{ old('project_id', $task->project_id) == $project->id ? 'selected' : '' }}>
+                            {{ $project->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Update Task</button>
         </form>
     </div>
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script>
-        // JavaScript code specific to this page
         $(function() {
             // Intercept the form submission
             $('#edit-task-form').submit(function(event) {
@@ -41,11 +51,9 @@
                     url: "{{ route('tasks.update', $task->id) }}",
                     data: $(this).serialize(), // Serialize the form data
                     success: function(data) {
-                        // Handle the success response here (if needed)
                         alert('Task updated successfully');
                     },
                     error: function(error) {
-                        // Handle the error response here (if needed)
                         alert('An error occurred while updating the task');
                     }
                 });

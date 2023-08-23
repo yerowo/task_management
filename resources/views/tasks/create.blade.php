@@ -28,6 +28,15 @@
                     <option value="low">Low</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="project_id">Project</label>
+                <select class="form-control" id="project_id" name="project_id">
+                    <option value="" selected>Select a Project</option>
+                    @foreach ($projects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <!-- Add other fields as needed -->
             <button type="submit" class="btn btn-primary">Create Task</button>
         </form>

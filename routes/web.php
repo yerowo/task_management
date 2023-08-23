@@ -27,3 +27,4 @@ Route::get('/tasks/edit/{task}', [TaskController::class, 'edit'])->name('tasks.e
 Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::post('/update-order', [TaskController::class, 'updateOrder'])->name("update-order");
 Route::delete('/tasks/delete/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::post('/tasks/filter', [TaskController::class, 'filter'])->name('tasks.filter');
