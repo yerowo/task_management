@@ -51,7 +51,7 @@
                     url: "{{ route('tasks.update', $task->id) }}",
                     data: $(this).serialize(), // Serialize the form data
                     success: function(data) {
-                        alert('Task updated successfully');
+                        window.location.href = "{{ route('tasks.index') }}";
                     },
                     error: function(error) {
                         alert('An error occurred while updating the task');
