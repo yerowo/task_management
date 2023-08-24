@@ -38,13 +38,6 @@ class TaskController extends Controller
             'project_id' => 'nullable|exists:projects,id', // Validate project_id if provided
         ]);
 
-        // Map priority values based on the selected option
-        $priorityMap = [
-            'high' => 0,
-            'medium' => 1,
-            'low' => 2,
-        ];
-
         $task = new Task;
         $task->task_name = $request->input('task_name');
         $task->priority = self::PRIORITIES[$request->input('priority')];
